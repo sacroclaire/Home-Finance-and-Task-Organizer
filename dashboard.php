@@ -76,6 +76,7 @@
                 </label>
             </div>
 <!--User Image-->
+            
             <div class="user">
                 <img src="person-circle.png" alt="Error" width="50px" height="50px">
             </div>

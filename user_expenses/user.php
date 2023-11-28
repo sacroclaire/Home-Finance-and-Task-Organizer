@@ -1,9 +1,6 @@
 <?php
    include("../connection/config.php");
 
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +19,7 @@
 .container table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 80px;
     margin-left: 80px;
     border-radius: 10px;
     font-family: 'Poppins', sans-serif;
@@ -30,7 +27,7 @@
 
 .container h2{
     text-align: center;
-    top: 100px;
+    margin-top: 50px;
 }
 .container tr th{
     text-align: center;
@@ -64,17 +61,34 @@ a:hover {
 
 .create{
     position: relative;
-    top: 10px;
-    left: 80px;
+    top: 65px;
+    left: -170px;
     
 }
 
 .search{
+    display: flex;
     position: relative;
-    top: -320px;
+    top: -200px;
     left: 880px;
     
 }
+
+
+.search input{
+    display: flex;
+    width: 250px;
+    box-shadow:
+    4px 0 10px lightskyblue,
+    0 4px 10px lightskyblue,  
+    4px 0 10px lightskyblue;
+    position: relative;
+    left: -20px;
+    top: 270px;
+}
+
+
+
 
 
         </style>
@@ -83,9 +97,16 @@ a:hover {
 <body>
 
 
-    <hr>
+   
     <div class="container">
         <h2>Expense Logs</h2>
+
+        <div class="header">
+            <div class="nav">
+                <div class="search">
+            <input class="form-control me-2" name="search" id= "live_search" type="search" placeholder="Search Date" aria-label="Search">
+           
+        </div>
 
         <div class="create">
 <!-- bootstrap button connected sa modal -->
@@ -93,7 +114,7 @@ a:hover {
   Create
 </button>
 </div>
-        <table style ="width:80%">
+        <table style ="width:80%" id="data-table">
         <thead>
             <tr class>
                 
@@ -110,24 +131,24 @@ a:hover {
 
     <?php
 
-        $sql = "SELECT * FROM expense";
+        $sql = "SELECT * FROM expense ORDER BY DATE DESC";
 
         $result = mysqli_query($conn,$sql);
 
         $number = 1;
 
-        while($test = mysqli_fetch_assoc($result)){
+        while($row = mysqli_fetch_assoc($result)){
                 echo "
                 
                 <tr>
 
-                <td>{$test['Date']}</td>
-                <td>{$test['Daily_Budget']}</td>
-                <td>{$test['Daily_Expenses']}</td>
-                <td>{$test['Remaining_Budget']}</td>
+                <td>{$row['Date']}</td>
+                <td>{$row['Daily_Budget']}</td>
+                <td>{$row['Daily_Expenses']}</td>
+                <td>{$row['Remaining_Budget']}</td>
                 <td>
                    
-                    <button type='button' class='btn btn-success'  onclick = 'editvalue({$test['id']})'>
+                    <button type='button' class='btn btn-success'  onclick = 'editvalue({$row['id']})'>
                       EDIT
                     </button>
 
@@ -145,21 +166,14 @@ a:hover {
 ?>
 
 
-</tbody>     
+    </tbody>     
     </table>
 
-    <div class="container">
-        <div class="header">
-            <div class="nav">
-                <div class="search">
-                    <input type="text" placeholder="Search.." for = "forSearch">
-                    <label>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                    </svg>
-                    </label>
-                    <input type = "submit" id = "forSearch" name = "forSearch">
-                </div>
+    <div class= "searchresult" id = "searchresult" style = "position: relative; top: 0px; left: -1px;">
+    </div>
+
+    
+    
 
     <!-- Modal -->
     <form  action = "user.php" method = "post">
@@ -212,8 +226,7 @@ a:hover {
       </div>
       <div class="modal-body">
     
-        <label>Name</label>
-        <input type="text" name="Ename" id = "Ename" class = "form-control" placeholder="Enter Name">
+        
      
         <label>Date</label>
         <input type="date" name="EDAte" id = "EdAte" class = "form-control" placeholder="MM/DD/YY">
@@ -255,6 +268,32 @@ a:hover {
 
 
     <script>
+
+$(document).ready(function () {
+    $("#live_search").keyup(function () {
+        var userinput = $(this).val(); // Removed the space
+
+        if (userinput != "") {
+            $.ajax({
+                url: "../ajax/admin_ajax.php",
+                method: 'POST',
+                data: { userinput : userinput }, // Added a space after the colon
+
+                success: function (data) {
+                    $("#searchresult").html(data);
+                    $("#data-table").hide();
+                    $("#searchresult").show();
+                }
+            });
+        } else {
+            $("#searchresult").hide();
+            $("#data-table").show();
+        }
+    });
+});
+
+
+
 
         //para naa ay value na ma edit
 

@@ -65,27 +65,43 @@ a:hover {
 .create{
     position: relative;
     top: 10px;
-    left: 80px;
-    
+    left: -180px;
 }
 
-.search{
+
+.search input{
+    width: 250px;
+    box-shadow:
+    4px 0 10px lightskyblue,
+    0 4px 10px lightskyblue,  
+    4px 0 10px lightskyblue;
     position: relative;
-    top: -320px;
-    left: 880px;
-    
+    left: 850px;
+    top: 10px;
 }
-
-
         </style>
 
 </head>
 <body>
 
 
-    <hr>
+   
     <div class="container">
         <h2>Expense Logs</h2>
+
+
+        <div class="header">
+            <div class="nav">
+                <div class="search">
+            <input class="form-control me-2" name="search" id= "live_search" type="search" placeholder="Search Date" aria-label="Search">
+           
+        </div>
+
+        <div class="expenselogs" id="expenselogs">
+            <!-- generated table -->
+        </div>
+
+
 
         <div class="create">
 <!-- bootstrap button connected sa modal -->
@@ -96,46 +112,46 @@ a:hover {
 
 
 </div>
-        <table style ="width:80%">
-        <thead>
-            <tr class>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Daily Budget</th>
-                <th>Daily Expenses</th>
-                <th>Remaining Budget</th>
-                <th>Options</th>
-            </tr>
-            </thead>
+        <table style="width:80%" id="data-table">
+       <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Daily Budget</th>
+            <th>Daily Expenses</th>
+            <th>Remaining Budget</th>
+            <th>Options</th>
+         </tr>
+       </thead>
   <tbody>
    
 
     <?php
 
-        $sql = "SELECT * FROM expense";
+        $sql = "SELECT * FROM expense ORDER BY DATE DESC";
 
         $result = mysqli_query($conn,$sql);
 
         $number = 1;
 
-        while($test = mysqli_fetch_assoc($result)){
+        while($row = mysqli_fetch_assoc($result)){
                 echo "
                 
                 <tr>
                 <td>$number</td>
-                <td>{$test['Name']}</td>
-                <td>{$test['Date']}</td>
-                <td>{$test['Daily_Budget']}</td>
-                <td>{$test['Daily_Expenses']}</td>
-                <td>{$test['Remaining_Budget']}</td>
+                <td>{$row['Name']}</td>
+                <td>{$row['Date']}</td>
+                <td>{$row['Daily_Budget']}</td>
+                <td>{$row['Daily_Expenses']}</td>
+                <td>{$row['Remaining_Budget']}</td>
                 <td>
                    
-                    <button type='button' class='btn btn-success'  onclick = 'editvalue({$test['id']})'>
+                    <button type='button' class='btn btn-success'  onclick = 'editvalue({$row['id']})'>
                       EDIT
                     </button>
 
-                    <button class = 'btn btn-danger' onclick = 'toDelete({$test['id']})'>DELETE</button>
+                    <button class = 'btn btn-danger' onclick = 'toDelete({$row['id']})'>DELETE</button>
                 </td>
             </tr>
                 
@@ -150,7 +166,10 @@ a:hover {
 
 
 </tbody>     
-    </table>
+</table>
+
+    <div class= "searchresult" id = "searchresult" style = "position: relative; top: 0px; left: -1px;   ">
+    </div>
 
 
     <!-- Modal -->
@@ -224,8 +243,8 @@ a:hover {
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button  name="add" class="btn btn-primary" onclick = "toEdit()">EDIT</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        <button  name="add" class="btn btn-success" onclick = "toEdit()">EDIT</button>
         <input type = "hidden" id = "hiddenID">
        
       </div>
@@ -248,6 +267,31 @@ a:hover {
 
 
     <script>
+
+$(document).ready(function () {
+    $("#live_search").keyup(function () {
+        var input = $(this).val(); // Removed the space
+
+        if (input != "") {
+            $.ajax({
+                url: "../ajax/admin_ajax.php",
+                method: 'POST',
+                data: { input : input }, // Added a space after the colon
+
+                success: function (data) {
+                    $("#searchresult").html(data);
+                    $("#data-table").hide();
+                    $("#searchresult").show();
+                }
+            });
+        } else {
+            $("#searchresult").hide();
+            $("#data-table").show();
+        }
+    });
+});
+
+
 
         //para naa ay value na ma edit
 
