@@ -226,8 +226,112 @@ if(isset($_POST['editing'])){
     }
 
 
+//Search function para sa admin task management
+ if (isset($_POST['admintask'])) {
 
+        $admintask = $_POST['admintask'];
+        $qry = "SELECT * FROM lists WHERE Date LIKE '%$admintask%' COLLATE utf8mb4_general_ci ORDER BY Date DESC";
     
- 
-?>
+        $result = mysqli_query($conn, $qry);
+    
+        if ($result) {
+            if (mysqli_num_rows($result) > 0) {
+                $number = 1;
+    
+               echo '<table class="table" id = "data-table">';
+               echo '<thead ';
+               echo 'class= "table-dark" style= "width: 100%" style ="background-color: blue; " id = "t">';
+               echo '<tr>';
+               echo '<th scope="col">No.</th>';
+               echo '<th scope="col">Assignee</th>';
+               echo '<th scope="col">Date</th>';
+               echo '<th scope="col">To-DO list</th>';
+               echo '<th scope="col">Remaining Task</th>';
+               echo '<th scope="col">Actions</th>';
+               echo '</tr>';
+               echo '</thead>';
+               echo  '<tbody>';
+    
+                while ($row = mysqli_fetch_assoc($result)) { // Changed $test to $row
 
+                    $id = $row['id'];
+                    echo "<tr>";
+                    echo "<td>" . $number . "</td>";
+                    echo "<td>" . $row['Assignee'] . "</td>";
+                    echo "<td>" . $row['Date'] . "</td>";
+                    echo "<td>" . $row['To_Do_List'] . "</td>";
+                    echo "<td>" . $row['Remaining_Task'] . "</td>";
+                    echo "<td>";
+    
+                    echo  "<button class = 'btn btn-outline-success' onclick = 'edit(".$row['id'].")' >EDIT</button>";
+                    echo "<button class = 'btn btn-outline-danger' onclick = 'Delete(".$row['id'].")'>REMOVE TASK</button>";
+                    echo "</td>";
+                    echo "</tr>";
+    
+                    $number++;
+                }
+    
+                echo '</tbody>';
+                echo '</table>';
+            } else {
+                echo "<h5> No data found!</h5>";
+            }
+        } else {
+            echo "Query failed: " . $conn->error;
+        }
+    }
+
+
+
+//Search function para sa user task management
+ if (isset($_POST['usertask'])) {
+
+        $usertask = $_POST['usertask'];
+        $qry = "SELECT * FROM lists WHERE Date LIKE '%$usertask%' COLLATE utf8mb4_general_ci ORDER BY Date DESC";
+    
+        $result = mysqli_query($conn, $qry);
+    
+        if ($result) {
+            if (mysqli_num_rows($result) > 0) {
+                $number = 1;
+
+               echo '<table class="table" id = "data-table">';
+               echo '<thead ';
+               echo 'class= "table-dark" style= "width: 100%" style ="background-color: blue; " id = "t">';
+               echo '<tr>';
+               echo '<th scope="col">Date</th>';
+               echo '<th scope="col">To-DO list</th>';
+               echo '<th scope="col">Remaining Task</th>';
+               echo '<th scope="col">Actions</th>';
+               echo '</tr>';
+               echo '</thead>';
+               echo  '<tbody>';
+
+               while($row = mysqli_fetch_assoc($result)){
+
+                $id = $row['id'];
+
+                echo"<tr>";
+                echo "<td>".$row['Date']."</td>";
+                echo "<td>".$row['To_Do_List']."</td>";
+                echo "<td>".$row['Remaining_Task']."</td>";
+                echo "<td>";
+                echo  "<button class = 'btn btn-outline-success' onclick = 'edit(".$row['id'].")' >EDIT</button>";
+                echo "</td>";
+                echo "</tr>";
+
+
+                $number++;
+            }
+    
+            echo '</tbody>';
+            echo '</table>';
+        } else {
+            echo "<h5> No data found!</h5>";
+        }
+    } else {
+        echo "Query failed: " . $conn->error;
+            }
+        }
+    
+                ?>
