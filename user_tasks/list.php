@@ -11,6 +11,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel = "stylesheet" href = "list.css">     
     <title>Daily Task Management List</title>
+    <style>
+
+    .search {
+      width: 250px;
+      box-shadow:
+        4px 0 10px lightskyblue,
+        0 4px 10px lightskyblue,
+        4px 0 10px lightskyblue;
+      position: relative;
+      left: 850px;
+      top: 10px;
+    }
+  </style>
 
 </head>
 <body>
@@ -19,6 +32,13 @@
     <hr>
     <div class="container">
         <h2>Task Management List</h2>
+
+        <div class="header">
+      <div class="nav">
+        <div class="search">
+          <input class="form-control me-2" name="search" id="live_search" type="search" placeholder="Search Date" aria-label="Search">
+
+        </div>
 
         <div class="create">
                 <!-- bootstrap button connected sa modal -->
@@ -29,9 +49,9 @@
 
 
 
-  <table class="table">
-                   <thead class= "table-dark">
-                        <tr>
+                      <table class="table" id="data-table">
+                      <thead class="table-dark" style="background-color: blue;" id="t">
+                      <tr>
                         
                         <th scope="col">Date</th>
                         <th scope="col">To-DO list</th>
@@ -42,30 +62,29 @@
                     <tbody>
          <?php
 
-            $sql = "SELECT * FROM lists";
+            $sql = "SELECT * FROM lists ORDER BY Date DESC ";
 
             $result = mysqli_query($conn,$sql);
 
             $number = 1;
 
-            while($test = mysqli_fetch_assoc($result)){
+            while($row = mysqli_fetch_assoc($result)){
 
-                $id = $test['id'];
+                $id = $row['id'];
 
                 echo'
 
                 <tr>
-                <td>'.$test['Date'].'</td>
-                <td>'.$test['To_Do_List'].'</td>
-                <td>'.$test['Remaining_Task'].'</td>
+                <td>'.$row['Date'].'</td>
+                <td>'.$row['To_Do_List'].'</td>
+                <td>'.$row['Remaining_Task'].'</td>
+                <td>'.$row['Actions'].'</td>
+
                 <td>
                     <button class = "btn btn-outline-success" onclick = "edit('.$id.')" >EDIT</button>
                    
-                    
                 </td>
-              </tr>
-
-                ';
+              </tr>';
 
                 $number++;
 
@@ -75,19 +94,14 @@
 
         ?>
 
-    <div class="container">
-        <div class="header">
-            <div class="nav">
-                <div class="search">
-                <input type="text" placeholder="Search.." id="forSearch" name="forSearch">
+        </tbody>
+        </table>
 
-                    <label>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                    </svg>
-                    </label>
-                    <input type = "submit" id = "forSearch" name = "forSearch">
-                </div>
+        <div class="searchresult" id="searchresult" style="position: relative; top: 0px; left: 50;  width: 100%; ">
+
+        </div>
+
+
 
     <!-- Modal -->
     <form  action = "list.php" method = "post">
@@ -175,6 +189,30 @@
 
     <script>
 
+          $(document).ready(function() {
+            $("#live_search").keyup(function() {
+              var usertask = $(this).val(); // Removed the space
+
+              if (usertask != "") {
+                $.ajax({
+                  url: "../ajax/admin_ajax.php",
+                  method: 'POST',
+                  data: {
+                    usertask: usertask
+                  }, // Added a space after the colon
+
+                  success: function(data) {
+                    $("#searchresult").html(data);
+                    $("#data-table").hide();
+                    $("#searchresult").show();
+                  }
+                });
+              } else {
+                $("#searchresult").hide();
+                $("#data-table").show();
+              }
+            });
+          });
             function edit(id) {
                 $('#hiddenID').val(id);
                 $('#EDITmodal').modal('show'); // Corrected the ID here

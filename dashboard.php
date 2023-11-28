@@ -74,7 +74,7 @@
                     <input type="text" placeholder  ="Search" > 
                     <span class="las la-search"></span>
                 </label>
-            </div>
+            </div> 
 <!--User Image-->
             
             <div class="user">
