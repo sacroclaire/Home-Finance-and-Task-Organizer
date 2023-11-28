@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2023 at 06:17 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: Nov 28, 2023 at 06:38 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -93,16 +94,20 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `confirmpass` varchar(100) NOT NULL
+  `confirmpass` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `contactNumber` varchar(20) NOT NULL,
+  `profile_image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `confirmpass`) VALUES
-(1, 'sac', '123', ''),
-(2, 'sac', '123', '');
+INSERT INTO `users` (`id`, `username`, `password`, `confirmpass`, `email`, `contactNumber`, `profile_image`) VALUES
+(1, 'sac', '123', '', '', '', ''),
+(2, 'sac', '123', '', '', '', ''),
+(4, 'ray', '111', '111', 'ray@gmail.com', '911', 'profile_images/person-circle.png');
 
 --
 -- Indexes for dumped tables
@@ -146,7 +151,7 @@ ALTER TABLE `lists`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
