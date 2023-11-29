@@ -1,4 +1,4 @@
-<?php
+gi<?php
    include("../connection/config.php");
 
 
