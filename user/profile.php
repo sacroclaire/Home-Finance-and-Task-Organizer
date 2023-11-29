@@ -6,9 +6,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id'];
     $newUsername = $_POST['username'];
     $newEmail = $_POST['email'];
+    $newEmail = $_POST['profile_pic'];
 
     // Update user details in the database
-    $sql = "UPDATE user SET username='$newUsername', email='$newEmail' WHERE id=$id";
+    $sql = "UPDATE users SET username='$newUsername', email='$newEmail', profile_pic='$newProfile_pic' WHERE id=$id";
     if ($conn->query($sql) === TRUE) {
         echo "User details updated successfully";
     } else {
@@ -20,7 +21,7 @@ if (isset($_GET['id'])) {
     $userId = $_GET['id'];
 
     // Fetch user details
-    $sql = "SELECT * FROM user WHERE id = $userId";
+    $sql = "SELECT * FROM users WHERE id = $userId";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -46,9 +47,10 @@ if (isset($_GET['id'])) {
 
 <h2>User Profile</h2>
 
+<p>Profile_pic: <?php echo $user['profile_pic']; ?></p>
 <p>ID: <?php echo $user['id']; ?></p>
 <p>Username: <?php echo $user['username']; ?></p>
-<p>Email: <?php echo $user['email']; ?></p>
+<p>Password: <?php echo $user['password']; ?></p>
 
 <!-- Edit button to modify user details -->
 <a href="#" onclick="toggleForm()">Edit</a>
@@ -58,8 +60,6 @@ if (isset($_GET['id'])) {
     <input type="hidden" name="id" value="<?php echo $user['id']; ?>">
     <label for="username">New Username:</label>
     <input type="text" id="username" name="username" value="<?php echo $user['username']; ?>"><br><br>
-    <label for="email">New Email:</label>
-    <input type="email" id="email" name="email" value="<?php echo $user['email']; ?>"><br><br>
     
     <input type="submit" value="Update">
 </form>
