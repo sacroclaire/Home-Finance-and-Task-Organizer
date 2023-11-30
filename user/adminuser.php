@@ -2,7 +2,7 @@
 include('../connection/config.php');
 
 // Fetch all users
-$sql = "SELECT id, username, email FROM user";
+$sql = "SELECT id, username, password FROM users ORDER BY id DESC";
 $result = $conn->query($sql);
 
 ?>
@@ -30,15 +30,13 @@ $result = $conn->query($sql);
 </head>
 <body>
 
-
-
 <h2>User</h2>
 
 <table>
     <tr>
         <th>ID</th>
         <th>Username</th>
-        <th>Email</th>
+        <th>Password</th>
         <th>Action</th>
     </tr>
 
@@ -48,8 +46,12 @@ $result = $conn->query($sql);
             echo "<tr>";
             echo "<td>" . htmlspecialchars($row['id']) . "</td>";
             echo "<td>" . htmlspecialchars($row['username']) . "</td>";
-            echo "<td>" . htmlspecialchars($row['email']) . "</td>";
-            echo "<td><a href='profile.php?id=" . urlencode($row['id']) . "'>Profile</a> | <a href='activity.php?id=" . urlencode($row['id']) . "'>Activity</a> | <a href='settings.php?id=" . urlencode($row['id']) . "'>Settings</a></td>";
+            echo "<td>" . htmlspecialchars($row['password']) . "</td>";
+            echo "<td>
+                    <a href='profile.php?id=" . urlencode($row['id']) . "'>Profile</a> | 
+                    <a href='changepass.php?id=" . urlencode($row['id']) . "'>Change Password</a> | 
+                    <a href='delete.php?id=" . urlencode($row['id']) . "'>Delete</a>
+                  </td>";
             echo "</tr>";
         }
     } else {
