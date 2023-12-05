@@ -29,9 +29,6 @@ $result = $conn->query($sql);
     </style>
 </head>
 <body>
-<?php
-        include("dashboard.php");
-?>
 
 <h2>User</h2>
 

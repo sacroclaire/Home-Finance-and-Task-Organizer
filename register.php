@@ -7,25 +7,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $confirmpass = $_POST['confirmPassword'];
     $email = $_POST['email'];
     $contactNumber = $_POST['contactNumber'];
+    $profileImageName = $_FILES['profileImage']['name'];
 
     // Check if a file is selected
     if (!empty($_FILES['profileImage']['name'])) {
         $profileImageName = $_FILES['profileImage']['name'];
         $profileImageTemp = $_FILES['profileImage']['tmp_name'];
-        $profileImageType = $_FILES['profileImage']['type'];
-        $profileImageSize = $_FILES['profileImage']['size'];
+        $uploadDir = 'profile_images/'. basename($_FILES['profileImage']['name']);
 
         // Check file type (you may want to add more file type checks)
-        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+      /*   $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
         if (in_array($profileImageType, $allowedTypes)) {
 
             // Move the uploaded file to a designated folder
-            $uploadPath = 'profile_images/';
-            $profileImagePath = $uploadPath . $profileImageName;
-            move_uploaded_file($profileImageTemp, $profileImagePath);
+            */
+            move_uploaded_file($profileImageTemp, $uploadDir);
+             /*  
         } else {
             echo "<script>alert('Invalid file type. Only JPG, PNG, and GIF are allowed.');</script>";
-        }
+        } */
     } else {
         // Default profile image if none is provided
         $profileImagePath = 'profile_images/default.png';
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         // SQL query using prepared statement
         $sql = "INSERT INTO users (username, password, confirmpass, email, contact_number, profile_image) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ssssss", $username, $password, $confirmpass, $email, $contactNumber, $profileImagePath);
+        mysqli_stmt_bind_param($stmt, "ssssss", $username, $password, $confirmpass, $email, $contactNumber, $profileImageName);
         mysqli_stmt_execute($stmt);
         
         // $sql = "INSERT INTO users (username,password,confirmpass,email,contactNumber,profile_image) VALUES ('$username','$password','$confirmpass','$email','$contactNumber','$profileImagePath)";
