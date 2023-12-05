@@ -37,7 +37,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     }else if($check == 1){
       header("Location: userdashboard.php");
     }else if($check == 2){
-      header("Location:  dashboard.php");
+      header("Location: dashboard.php");
     }
 }
 ?>

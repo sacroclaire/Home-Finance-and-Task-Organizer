@@ -47,10 +47,6 @@ if(isset($_POST['create'])){
 
 
 
-
-
-
-
 //para ma delete natu and data adtoa sa user php filefor expenses
 
 if(isset($_POST['toDelete'])){
@@ -62,20 +58,35 @@ if(isset($_POST['toDelete'])){
 
 //para ma edit a and user sa expenses
 
-if(isset($_POST['toEdit'])){
+// admin_ajax.php
 
-    $id = $_POST['toEdit'];
-    $name =$_POST['name'];
-    $date =$_POST['date'];
-    $budget =$_POST['budget'];
-    $expenses =$_POST['expenses'];
-    $remaining=$_POST['remaining'];
+if (isset($_POST['edit_id'])) {
+    $editId = mysqli_real_escape_string($conn, $_POST['edit_id']);
+    $sql = "SELECT * FROM expense WHERE id = $editId";
+    $result = mysqli_query($conn, $sql);
 
-    $sql = "UPDATE expense SET Name = '$name', Date = '$date', Daily_Budget = '$budget', Daily_Expenses = '$expenses', Remaining_Budget	
- = '$remaining' WHERE id = $id";
+    if ($result) {
+        $rowData = mysqli_fetch_assoc($result);
+        echo json_encode($rowData);
+    } else {
+        echo json_encode(['error' => 'Unable to fetch data']);
+    }
+    exit(); // Terminate the script after handling the request
+}
 
-    mysqli_query($conn,$sql);
 
+if (isset($_POST['editid'])) {
+    $editId = mysqli_real_escape_string($conn, $_POST['editid']);
+    $sql = "SELECT * FROM expense WHERE id = $editId";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        $rowData = mysqli_fetch_assoc($result);
+        echo json_encode($rowData);
+    } else {
+        echo json_encode(['error' => 'Unable to fetch data']);
+    }
+    exit(); // Terminate the script after handling the request
 }
 
 
@@ -85,21 +96,28 @@ if(isset($_POST['toEdit'])){
 
 //para ma edit a and user sa expenses
 
-if(isset($_POST['toEdit'])){
+// admin_ajax.php
 
+if (isset($_POST['toEdit'])) {
     $id = $_POST['toEdit'];
-    $name =$_POST['name'];
-    $date =$_POST['date'];
-    $budget =$_POST['budget'];
-    $expenses =$_POST['expenses'];
-    $remaining=$_POST['remaining'];
+    $name = $_POST['name'];
+    $date = $_POST['date'];
+    $budget = $_POST['budget'];
+    $expenses = $_POST['expenses'];
+    $remaining = $_POST['remaining'];
 
-    $sql = "UPDATE expense SET Name = '$name', Date = '$date', Daily_Budget = '$budget', Daily_Expenses = '$expenses', Remaining_Budget	
- = '$remaining' WHERE id = $id";
+    $sql = "UPDATE expense SET Name = '$name', Date = '$date', Daily_Budget = '$budget', Daily_Expenses = '$expenses', Remaining_Budget = '$remaining' WHERE id = $id";
 
-    mysqli_query($conn,$sql);
+    if (mysqli_query($conn, $sql)) {
+        echo json_encode(['success' => 'Updated successfully']);
+    } else {
+        echo json_encode(['error' => 'Failed to update: ' . mysqli_error($conn)]);
+    }
 
+    exit(); // Terminate the script after handling the request
 }
+
+
 
 
 
@@ -128,7 +146,7 @@ if(isset($_POST['editing'])){
         $result = mysqli_query($conn, $qry);
     
         if ($result) {
-            if (mysqli_num_rows($result) > 0) {
+          
                 $number = 1;
     
                 echo '<table style="width:1040px" id="expensetable data-table">'; // Corrected the table id and class
@@ -145,6 +163,7 @@ if(isset($_POST['editing'])){
                 echo '</thead>';
                 echo '<tbody>';
     
+    if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) { // Changed $test to $row
                     echo "<tr>";
                     echo "<td>" . $number . "</td>";
@@ -166,7 +185,8 @@ if(isset($_POST['editing'])){
                 echo '</tbody>';
                 echo '</table>';
             } else {
-                echo "<h5> No data found!</h5>";
+                echo "<td colspan='7' style = 'background-color: red; color: white;'>No Data Found! </td>";
+            
             }
         } else {
             echo "Query failed: " . $conn->error;
@@ -183,7 +203,7 @@ if(isset($_POST['editing'])){
         $result = mysqli_query($conn, $qry);
     
         if ($result) {
-            if (mysqli_num_rows($result) > 0) {
+         
                 $number = 1;
     
                 echo '<table style ="width:1040px" id="data-table">';
@@ -199,6 +219,7 @@ if(isset($_POST['editing'])){
                      echo '</thead>';
                      echo '<tbody>';
     
+        if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) { // Changed $test to $row
                     echo "<tr>";
                     echo "<td>" .$row['Date']. "</td>";
@@ -218,7 +239,9 @@ if(isset($_POST['editing'])){
                 echo '</table>';
 
             } else {
-                echo "<h5> No data found!</h5>";
+                
+                echo "<td colspan='7' style = 'background-color: red; color: white;'>No Data Found! </td>";
+               
             }
         } else {
             echo "Query failed: " . $conn->error;
@@ -235,10 +258,10 @@ if(isset($_POST['editing'])){
         $result = mysqli_query($conn, $qry);
     
         if ($result) {
-            if (mysqli_num_rows($result) > 0) {
+           
                 $number = 1;
     
-               echo '<table class="table" id = "data-table">';
+               echo '<table class="table" style= "width: 80%" id = "data-table">';
                echo '<thead ';
                echo 'class= "table-dark" style= "width: 100%" style ="background-color: blue; " id = "t">';
                echo '<tr>';
@@ -251,7 +274,8 @@ if(isset($_POST['editing'])){
                echo '</tr>';
                echo '</thead>';
                echo  '<tbody>';
-    
+
+               if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) { // Changed $test to $row
 
                     $id = $row['id'];
@@ -274,7 +298,7 @@ if(isset($_POST['editing'])){
                 echo '</tbody>';
                 echo '</table>';
             } else {
-                echo "<h5> No data found!</h5>";
+                echo "<td colspan='7' style = 'background-color: red; color: white;'>No Data Found! </td>";
             }
         } else {
             echo "Query failed: " . $conn->error;
@@ -292,10 +316,10 @@ if(isset($_POST['editing'])){
         $result = mysqli_query($conn, $qry);
     
         if ($result) {
-            if (mysqli_num_rows($result) > 0) {
+            
                 $number = 1;
 
-               echo '<table class="table" id = "data-table">';
+               echo '<table class="table" style= "width: 80%" id = "data-table">';
                echo '<thead ';
                echo 'class= "table-dark" style= "width: 100%" style ="background-color: blue; " id = "t">';
                echo '<tr>';
@@ -307,6 +331,7 @@ if(isset($_POST['editing'])){
                echo '</thead>';
                echo  '<tbody>';
 
+               if (mysqli_num_rows($result) > 0) {
                while($row = mysqli_fetch_assoc($result)){
 
                 $id = $row['id'];
@@ -327,7 +352,7 @@ if(isset($_POST['editing'])){
             echo '</tbody>';
             echo '</table>';
         } else {
-            echo "<h5> No data found!</h5>";
+            echo "<td colspan='7' style = 'background-color: red; color: white;'>No Data Found! </td>";
         }
     } else {
         echo "Query failed: " . $conn->error;

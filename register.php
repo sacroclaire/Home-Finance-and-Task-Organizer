@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // SQL query using prepared statement
-        $sql = "INSERT INTO users (username, password, confirmpass, email, contactNumber, profile_image) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO users (username, password, confirmpass, email, contact_number, profile_image) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, "ssssss", $username, $password, $confirmpass, $email, $contactNumber, $profileImagePath);
         mysqli_stmt_execute($stmt);

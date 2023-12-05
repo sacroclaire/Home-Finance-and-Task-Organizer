@@ -1,80 +1,23 @@
-<?php 
 
-?>
+  
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Finance and Task Organizer</title>
-   <link rel="stylesheet" href="dashboard.css"/>
-    <!--icon link-->
-    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-    <!--font style sidemenu_bar-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa&family=Nosifer&family=Playfair+Display&display=swap" rel="stylesheet">
+    <title>Document</title>
 </head>
 <body>
-<!--SideMenu-->
-    <div class="container">
-        <div class="navigation">
-                <ul>
-                  <li>
-                    <a href="">
-                        <span class="icon"><ion-icon name="briefcase-outline"></ion-icon>
-                        <span class="title">Home Finance <br> and Task Organizer</span>
-                    </a>
-                  </li>
-
-                  <li>
-                    <a href="user/adminuser.php">
-                        <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
-                        <span class="title">User</span>
-                    </a>
-                  </li>
-
-
-                  <li>
-                    <a href="">
-                        <span class="icon"><ion-icon name="menu-outline"></ion-icon></span>
-                        <span class="title">Dashboard</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="taskmanagement/list.php">
-                        <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
-                        <span class="title">Task Management</span>
-                    </a>
-                  </li>
-                  
-                  <li>
-                    <a href="expense/user.php">
-                        <span class="icon"><ion-icon name="wallet-outline"></ion-icon></span>
-                        <span class="title">Expense <br>Management</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="login.php">
-                        <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
-                        <span class="title" >Sign-out</span>
-                    </a>
-                  </li>
-                </ul>
-        </div>
-    </div>
-
-<!--Main-->
+    
+<?php
+        include("../adminsidebar.php");
+?>
+  <!--Main-->
     <div class="main">
         <div class="topbar">
         
 <!--Search-->
-            <div class="search">
-                <label>
-                    <input type="text" placeholder  ="Search" > 
-                    <span class="las la-search"></span>
-                </label>
-            </div> 
+        
 <!--User Image-->
             
             <div class="user">
@@ -85,8 +28,8 @@
             <div class="cardBox">
                 <div class="card">
                     <div>
-                        <a href="user/adminuser.php">
-                            <div class="numbers">0</div>
+                        <a href="../user/adminuser.php">
+                            <div class="numbers">3</div>
                             <div class="cardName">Total Users</div>
                         </a>
                     </div>
@@ -96,8 +39,8 @@
                 </div>
                 <div class="card">
                     <div>
-                        <a href="expense/user.php">
-                            <div class="numbers">0</div>
+                        <a href="../expense/user.php">
+                            <div class="numbers"></div>
                                 <div class="cardName">Finance</div>
                             </div>
                         <div class="card_icon">
@@ -107,8 +50,8 @@
                 </div>
                 <div class="card">
                     <div>
-                        <a href="taskmanagement/list.php">
-                            <div class="numbers">0</div>
+                        <a href="../taskmanagement/list.php">
+                            <div class="numbers">5</div>
                                 <div class="cardName">Tasks</div>
                             </div>
                         <div class="card_icon">
@@ -117,13 +60,5 @@
                        </a>
                 
 
-<!--icon link-->
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-
 </body>
 </html>
-
-
-
