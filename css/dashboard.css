@@ -1,0 +1,62 @@
+
+
+/*User-Profile*/
+.containerB {
+    position: fixed;
+    background: var(--white);
+    padding: 30px;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    height: 80%;
+    width: 50%;
+    left: 50%; /* Adjusted to center */
+    top: 50%; /* Adjusted to center */
+    transform: translate(-50%, -50%); /* Added to center the container */
+}
+
+.profile {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center the items vertically */
+    flex-direction: column; /* Stack items vertically */
+}
+
+.profile img {
+    margin-top: -10px;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+}
+
+.changeProfileButton svg {
+    margin-top: 10px; /* Adjusted margin */
+}
+
+.inputs {
+    margin-top: 30px;
+    text-align: center; /* Center the text */
+}
+
+.inputs input {
+    width: 50%;
+    height: 30px;
+    margin-top: 10px; /* Adjusted margin */
+    border-radius: 10px;
+    padding-left: 15px;
+    border-color: var(--black2);
+}
+
+.Cedit {
+    margin-top: 20px; /* Adjusted margin */
+    font-size: 18px;
+    cursor: pointer;
+    background-color: var(--orange);
+    color: var(--white);
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.input1 {
+    margin-top: 20px; /* Adjusted margin */
+}
